@@ -552,6 +552,10 @@ exports.itemsCollectionUpdate = functions.firestore
             item.location = dataAfter.location;
         }
 
+        if (dataBefore.inStock != dataAfter.inStock) {
+            item.inStock = dataAfter.inStock;
+        }
+
         if (dataBefore.locationDescription != dataAfter.locationDescription) {
             item.locationDescription = dataAfter.locationDescription;
         }
