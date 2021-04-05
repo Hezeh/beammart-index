@@ -215,29 +215,25 @@ exports.updateProfileItem = functions.firestore
         const dataBefore = change.before.data();
         const dataAfter = change.after.data();
         if (dataAfter.title === dataBefore.title) {
-            return null;
         } else {
             await itemsRef.doc(itemId).set({ 'title': dataAfter.title }, { merge: true });
         }
         if (dataAfter.description === dataBefore.description) {
-            return null;
         } else {
             await itemsRef.doc(itemId).set({ 'description': dataAfter.description }, { merge: true });
         }
         if (dataAfter.price === dataBefore.price) {
-            return null;
         } else {
             await itemsRef.doc(itemId).set({ 'price': dataAfter.price }, { merge: true });
         }
-        if (dataAfter.inStock === dataBefore.inStock) {
-            return null;
-        } else {
-            await itemsRef.doc(itemId).set({ 'inStock': dataAfter.inStock }, { merge: true });
-        }
         if (dataAfter.dateModified === dataBefore.dateModified) {
-            return null;
         } else {
             await itemsRef.doc(itemId).set({ 'dateModified': dataAfter.dateModified }, { merge: true });
+        }
+        if (dataAfter.inStock === dataBefore.inStock) {
+
+        } else {
+            await itemsRef.doc(itemId).set({ 'inStock': dataAfter.inStock }, { merge: true });
         }
     });
 
