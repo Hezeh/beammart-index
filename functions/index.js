@@ -44,6 +44,8 @@ exports.createProfileItem = functions.firestore
         const _inStock = newValue.inStock;
         const _category = newValue.category;
         const _subCategory = newValue.subCategory;
+        const _isActive = doc.isActive;
+        const _lastRenewal = doc.lastRenewal;
 
         const doc = await db.collection('profile').doc(`${userId}`).get();
 
@@ -191,6 +193,12 @@ exports.createProfileItem = functions.firestore
             if (userId != null) {
                 _data['userId'] = userId;
             }
+            if (_lastRenewal != null) {
+                _data['lastRenewal'] = _lastRenewal;
+            }
+            if (_isActive != null) {
+                _data['isActive'] = _isActive;
+            }
 
             // Create doc in firebase collection
             await itemsRef.doc(`${itemId}`).set(_data);
@@ -231,9 +239,16 @@ exports.updateProfileItem = functions.firestore
             await itemsRef.doc(itemId).set({ 'dateModified': dataAfter.dateModified }, { merge: true });
         }
         if (dataAfter.inStock === dataBefore.inStock) {
-
         } else {
             await itemsRef.doc(itemId).set({ 'inStock': dataAfter.inStock }, { merge: true });
+        }
+        if (dataAfter.isActive === dataBefore.isActive) {
+        } else {
+            await itemsRef.doc(itemId).set({ 'isActive': dataAfter.isActive }, { merge: true });
+        }
+        if (dataAfter.lastRenewal === dataBefore.lastRenewal) {
+        } else {
+            await itemsRef.doc(itemId).set({ 'lastRenewal': dataAfter.lastRenewal }, { merge: true });
         }
     });
 
