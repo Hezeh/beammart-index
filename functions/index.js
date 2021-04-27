@@ -222,34 +222,16 @@ exports.updateProfileItem = functions.firestore
         itemId = context.params.itemId;
         const dataBefore = change.before.data();
         const dataAfter = change.after.data();
-        if (dataAfter.title === dataBefore.title) {
-        } else {
-            await itemsRef.doc(itemId).set({ 'title': dataAfter.title }, { merge: true });
-        }
-        if (dataAfter.description === dataBefore.description) {
-        } else {
-            await itemsRef.doc(itemId).set({ 'description': dataAfter.description }, { merge: true });
-        }
-        if (dataAfter.price === dataBefore.price) {
-        } else {
-            await itemsRef.doc(itemId).set({ 'price': dataAfter.price }, { merge: true });
-        }
-        if (dataAfter.dateModified === dataBefore.dateModified) {
-        } else {
-            await itemsRef.doc(itemId).set({ 'dateModified': dataAfter.dateModified }, { merge: true });
-        }
-        if (dataAfter.inStock === dataBefore.inStock) {
-        } else {
-            await itemsRef.doc(itemId).set({ 'inStock': dataAfter.inStock }, { merge: true });
-        }
-        if (dataAfter.isActive === dataBefore.isActive) {
-        } else {
-            await itemsRef.doc(itemId).set({ 'isActive': dataAfter.isActive }, { merge: true });
-        }
-        if (dataAfter.lastRenewal === dataBefore.lastRenewal) {
-        } else {
-            await itemsRef.doc(itemId).set({ 'lastRenewal': dataAfter.lastRenewal }, { merge: true });
-        }
+        console.log(dataAfter);
+        await itemsRef.doc(itemId).set({
+            'title': dataAfter.title,
+            'description': dataAfter.description,
+            'price': dataAfter.price,
+            'dateModified': dataAfter.dateModified,
+            'inStock': dataAfter.inStock,
+            'isActive': dataAfter.isActive,
+            'lastRenewal': dataAfter.lastRenewal,
+        }, { merge: true });
     });
 
 // On Profile/{userId} Update -> Update the /items collection
