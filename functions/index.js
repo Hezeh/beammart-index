@@ -44,8 +44,8 @@ exports.createProfileItem = functions.firestore
         const _inStock = newValue.inStock;
         const _category = newValue.category;
         const _subCategory = newValue.subCategory;
-        const _isActive = doc.isActive;
-        const _lastRenewal = doc.lastRenewal;
+        const _isActive = newValue.isActive;
+        const _lastRenewal = newValue.lastRenewal;
 
         const doc = await db.collection('profile').doc(`${userId}`).get();
 
@@ -162,6 +162,9 @@ exports.createProfileItem = functions.firestore
             }
             if (_businessProfilePhoto != null) {
                 _data['businessProfilePhoto'] = _businessProfilePhoto;
+            }
+            if (itemId != null) {
+                _data["itemId"] = itemId
             }
             if (_title != null) {
                 _data['title'] = _title;
