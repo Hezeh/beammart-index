@@ -249,15 +249,14 @@ exports.profileUpdate = functions.firestore
         // Update all the documents in /items collection
         profileSnapshots.forEach(async (doc) => {
             const docId = doc.id;
-            if (doc.exists) {
-                await itemsRef.doc(docId).update({ 'location': dataAfter.location });
-            }
             if (dataAfter.businessName != dataBefore.businessName) {
                 await itemsRef.doc(docId).set({ 'businessName': dataAfter.businessName }, { merge: true });
             }
-            // if (dataAfter.location != dataBefore.location) {
-                
-            // }
+            if (dataAfter.gpsLocation != dataBefore.gpsLocation) {
+                if (doc.exists) {
+                    await itemsRef.doc(docId).update({ 'location': dataAfter.gpsLocation });
+                }
+            }
             if (dataAfter.locationDescription != dataBefore.locationDescription) {
                 await itemsRef.doc(docId).set({ 'locationDescription': dataAfter.locationDescription }, { merge: true });
             }
