@@ -712,6 +712,7 @@ exports.chatNotifications = functions.firestore
             } else {
                 const consumerName = chatDoc.consumerDisplayName;
                 const consumerId = chatDoc.consumerId;
+                const businessId = chatDoc.businessId;
                 const consumerDoc = await db.collection('consumers').doc(`${consumerId}`).get();
                 if (!consumerDoc.exists) {
                     console.log("No such consumerDocument")
@@ -721,9 +722,11 @@ exports.chatNotifications = functions.firestore
                         tokens, // ['token_1', 'token_2', ...]
                         {
                             data: {
-                                type: 'chat',
+                                type: JSON.stringify('chat'),
                                 consumer: JSON.stringify(consumerName),
                                 messageContent: JSON.stringify(messageContent),
+                                businessId: JSON.stringify(businessId),
+                                consumerId: JSON.stringify(consumerId),
                             },
                         },
                         {
@@ -741,6 +744,7 @@ exports.chatNotifications = functions.firestore
             } else {
                 const businessName = chatDoc.businessName;
                 const businessId = chatDoc.businessId;
+                const consumerId = chatDoc.consumerId;
                 const businessDoc = await db.collection('profile').doc(`${businessId}`).get();
                 if (!businessDoc.exists) {
                     console.log("No such businessDoc");
@@ -750,9 +754,11 @@ exports.chatNotifications = functions.firestore
                         tokens, // ['token_1', 'token_2', ...]
                         {
                             data: {
-                                type: 'chat',
+                                type: JSON.stringify('chat'),
                                 businessName: JSON.stringify(businessName),
                                 messageContent: JSON.stringify(messageContent),
+                                businessId: JSON.stringify(businessId),
+                                consumerId: JSON.stringify(consumerId),
                             },
                         },
                         {
