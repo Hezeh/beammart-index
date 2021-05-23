@@ -692,3 +692,75 @@ exports.itemsCollectionDelete = functions.firestore
         //     data: jsonItem
         // })
     })
+
+// Merchant Chat Notifications
+exports.chatNotifications = functions.firestore
+    .document("chats/{chatId}/{messageCollectionId}/{messageId}")
+    .onWrite(async (change, context) => {
+        const data = change.after.data();
+        const chatId = context.params.chatId;
+        const messageContent = data.messageContent;
+        // const timestamp = data.timestamp;
+        const sentByConsumer = data.sentByConsumer;
+
+        // Read the chats/{chatId} doc
+        const chatDoc = await db.collection('chats').doc(`${chatId}`).get();
+
+        if (sentByConsumer) {
+            if (!chatDoc.exists) {
+                console.log("No such chatDocument")
+            } else {
+                const consumerName = chatDoc.consumerDisplayName;
+                const consumerId = chatDoc.consumerId;
+                const consumerDoc = await db.collection('consumers').doc(`${consumerId}`).get();
+                if (!consumerDoc.exists) {
+                    console.log("No such consumerDocument")
+                } else {
+                    const tokens = consumerDoc.notificationsTokens;
+                    await admin.messaging().sendToDevice(
+                        tokens, // ['token_1', 'token_2', ...]
+                        {
+                            data: {
+                                consumer: JSON.stringify(consumerName),
+                                messageContent: JSON.stringify(messageContent),
+                            },
+                        },
+                        {
+                            // Required for background/quit data-only messages on iOS
+                            contentAvailable: true,
+                            // Required for background/quit data-only messages on Android
+                            priority: "high",
+                        }
+                    );
+                }
+            }
+        } else {
+            if (!chatDoc.exists) {
+                console.log("No such chatDocument")
+            } else {
+                const businessName = chatDoc.businessName;
+                const businessId = chatDoc.businessId;
+                const businessDoc = await db.collection('profile').doc(`${businessId}`).get();
+                if (!businessDoc.exists) {
+                    console.log("No such businessDoc");
+                } else {
+                    const tokens = businessDoc.notificationsTokens;
+                    await admin.messaging().sendToDevice(
+                        tokens, // ['token_1', 'token_2', ...]
+                        {
+                            data: {
+                                businessName: JSON.stringify(businessName),
+                                messageContent: JSON.stringify(messageContent),
+                            },
+                        },
+                        {
+                            // Required for background/quit data-only messages on iOS
+                            contentAvailable: true,
+                            // Required for background/quit data-only messages on Android
+                            priority: "high",
+                        }
+                    );
+                }
+            }
+        }
+    })
