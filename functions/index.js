@@ -721,6 +721,7 @@ exports.chatNotifications = functions.firestore
                         tokens, // ['token_1', 'token_2', ...]
                         {
                             data: {
+                                type: 'chat',
                                 consumer: JSON.stringify(consumerName),
                                 messageContent: JSON.stringify(messageContent),
                             },
@@ -749,6 +750,7 @@ exports.chatNotifications = functions.firestore
                         tokens, // ['token_1', 'token_2', ...]
                         {
                             data: {
+                                type: 'chat',
                                 businessName: JSON.stringify(businessName),
                                 messageContent: JSON.stringify(messageContent),
                             },
