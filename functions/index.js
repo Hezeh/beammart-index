@@ -743,19 +743,6 @@ exports.chatNotifications = functions.firestore
                     }
                     await admin.messaging().send(
                         message
-                        // tokens, // ['token_1', 'token_2', ...]
-                        // {
-                        //     data: {
-                        //         type: JSON.stringify('chat'),
-                        //         id: JSON.stringify(uuidv4()), 
-                        //     },
-                        // },
-                        // {
-                        //     // Required for background/quit data-only messages on iOS
-                        //     contentAvailable: true,
-                        //     // Required for background/quit data-only messages on Android
-                        //     priority: "high",
-                        // }
                     );
                 }
             }
@@ -796,25 +783,6 @@ exports.chatNotifications = functions.firestore
                     }
                     await admin.messaging().sendMulticast(
                         message
-                        // tokens, // ['token_1', 'token_2', ...]
-                        // {
-                        //     data: {
-                        //         type: JSON.stringify('chat'),
-                        //         id: JSON.stringify(uuidv4()),
-                        //         title: JSON.stringify(businessName),
-                        //         body: JSON.stringify(messageContent),
-                        //         businessName: JSON.stringify(businessName),
-                        //         messageContent: JSON.stringify(messageContent),
-                        //         businessId: JSON.stringify(businessId),
-                        //         consumerId: JSON.stringify(consumerId),
-                        //     },
-                        // },
-                        // {
-                        //     // Required for background/quit data-only messages on iOS
-                        //     contentAvailable: true,
-                        //     // Required for background/quit data-only messages on Android
-                        //     priority: "high",
-                        // }
                     );
                 }
             }
