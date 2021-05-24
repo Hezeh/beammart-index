@@ -3,6 +3,7 @@ const admin = require("firebase-admin");
 // const axios = require("axios");
 // const { database } = require("firebase-admin");
 const { PubSub } = require('@google-cloud/pubsub');
+const { v4: uuidv4 } = require('uuid');
 
 admin.initializeApp();
 
@@ -705,36 +706,56 @@ exports.chatNotifications = functions.firestore
 
         // Read the chats/{chatId} doc
         const chatDoc = await db.collection('chats').doc(`${chatId}`).get();
+        console.log(`Chat Id: ${chatId}`)
 
         if (sentByConsumer) {
+            // If true send message to business
             if (!chatDoc.exists) {
                 console.log("No such chatDocument")
             } else {
-                const consumerName = chatDoc.consumerDisplayName;
-                const consumerId = chatDoc.consumerId;
-                const businessId = chatDoc.businessId;
-                const consumerDoc = await db.collection('consumers').doc(`${consumerId}`).get();
-                if (!consumerDoc.exists) {
-                    console.log("No such consumerDocument")
+                const chatDocData = chatDoc.data()
+                const consumerName = chatDocData.consumerDisplayName;
+                const businessId = chatDocData.businessId;
+                const consumerId = chatDocData.consumerId;
+                const businessDoc = await db.collection('profile').doc(`${businessId}`).get();
+                const businessDocData = businessDoc.data();
+                console.log(`Business Id: ${businessId}`);
+                if (!businessDoc.exists) {
+                    console.log("No such businessDoc");
                 } else {
-                    const tokens = consumerDoc.notificationsTokens;
-                    await admin.messaging().sendToDevice(
-                        tokens, // ['token_1', 'token_2', ...]
-                        {
-                            data: {
-                                type: JSON.stringify('chat'),
-                                consumer: JSON.stringify(consumerName),
-                                messageContent: JSON.stringify(messageContent),
-                                businessId: JSON.stringify(businessId),
-                                consumerId: JSON.stringify(consumerId),
-                            },
+                    const tokens = businessDocData.notificationsTokens;
+                    const message = {
+                        tokens: tokens,
+                        data: {
+                            type: JSON.stringify('chat'),
+                            consumer: JSON.stringify(consumerName),
+                            messageContent: JSON.stringify(messageContent),
+                            businessId: JSON.stringify(businessId),
+                            consumerId: JSON.stringify(consumerId),
                         },
-                        {
-                            // Required for background/quit data-only messages on iOS
-                            contentAvailable: true,
-                            // Required for background/quit data-only messages on Android
-                            priority: "high",
+                        notification: {
+                            title: consumerName,
+                            body: messageContent,
+                        },
+                        android: {
+                            priority: "high"
                         }
+                    }
+                    await admin.messaging().send(
+                        message
+                        // tokens, // ['token_1', 'token_2', ...]
+                        // {
+                        //     data: {
+                        //         type: JSON.stringify('chat'),
+                        //         id: JSON.stringify(uuidv4()), 
+                        //     },
+                        // },
+                        // {
+                        //     // Required for background/quit data-only messages on iOS
+                        //     contentAvailable: true,
+                        //     // Required for background/quit data-only messages on Android
+                        //     priority: "high",
+                        // }
                     );
                 }
             }
@@ -742,31 +763,58 @@ exports.chatNotifications = functions.firestore
             if (!chatDoc.exists) {
                 console.log("No such chatDocument")
             } else {
-                const businessName = chatDoc.businessName;
-                const businessId = chatDoc.businessId;
-                const consumerId = chatDoc.consumerId;
-                const businessDoc = await db.collection('profile').doc(`${businessId}`).get();
-                if (!businessDoc.exists) {
-                    console.log("No such businessDoc");
+                const chatDocData = chatDoc.data();
+                const businessName = chatDocData.businessName;
+                const consumerId = chatDocData.consumerId;
+                const businessId = chatDocData.businessId;
+                const consumerDoc = await db.collection('consumers').doc(`${consumerId}`).get();
+                const consumerDocData = consumerDoc.data();
+                if (!consumerDoc.exists) {
+                    console.log("No such consumerDocument")
                 } else {
-                    const tokens = businessDoc.notificationsTokens;
-                    await admin.messaging().sendToDevice(
-                        tokens, // ['token_1', 'token_2', ...]
-                        {
-                            data: {
-                                type: JSON.stringify('chat'),
-                                businessName: JSON.stringify(businessName),
-                                messageContent: JSON.stringify(messageContent),
-                                businessId: JSON.stringify(businessId),
-                                consumerId: JSON.stringify(consumerId),
-                            },
+                    const tokens = consumerDocData.notificationsTokens;
+                    const message = {
+                        tokens: tokens,
+                        data: {
+                            type: JSON.stringify('chat'),
+                            title: JSON.stringify(businessName),
+                            body: JSON.stringify(messageContent),
+                            businessId: JSON.stringify(businessId),
+                            consumerId: JSON.stringify(consumerId),
                         },
-                        {
-                            // Required for background/quit data-only messages on iOS
-                            contentAvailable: true,
-                            // Required for background/quit data-only messages on Android
+                        notification: {
+                            title: businessName,
+                            body: messageContent,
+                        },
+                        android: {
                             priority: "high",
+                            notification: {
+                                icon: 'ic_stat_name',
+                                color: '#ff1493'
+                            }
                         }
+                    }
+                    await admin.messaging().sendMulticast(
+                        message
+                        // tokens, // ['token_1', 'token_2', ...]
+                        // {
+                        //     data: {
+                        //         type: JSON.stringify('chat'),
+                        //         id: JSON.stringify(uuidv4()),
+                        //         title: JSON.stringify(businessName),
+                        //         body: JSON.stringify(messageContent),
+                        //         businessName: JSON.stringify(businessName),
+                        //         messageContent: JSON.stringify(messageContent),
+                        //         businessId: JSON.stringify(businessId),
+                        //         consumerId: JSON.stringify(consumerId),
+                        //     },
+                        // },
+                        // {
+                        //     // Required for background/quit data-only messages on iOS
+                        //     contentAvailable: true,
+                        //     // Required for background/quit data-only messages on Android
+                        //     priority: "high",
+                        // }
                     );
                 }
             }
