@@ -567,6 +567,8 @@ exports.itemsCollectionUpdate = functions.firestore
             isFridayOpen: dataAfter.isFridayOpen,
             isSaturdayOpen: dataAfter.isSaturdayOpen,
             isSundayOpen: dataAfter.isSundayOpen,
+            category: dataAfter.category,
+            subCategory: dataAfter.subCategory,
         }
 
         const jsonItem = JSON.stringify(item);
