@@ -533,134 +533,40 @@ exports.itemsCollectionUpdate = functions.firestore
         const item = {
             itemId: docId,
             userId: dataBefore.userId,
-        }
-
-        if (dataBefore.title != dataAfter.title) {
-            item.title = dataAfter.title;
-        }
-
-        if (dataBefore.businessName != dataAfter.businessName) {
-            item.businessName = dataAfter.businessName;
-        }
-
-        if (dataBefore.businessDescription != dataAfter.businessDescription) {
-            item.businessDescription = dataAfter.businessDescription;
-        }
-
-        if (dataBefore.location != dataAfter.location) {
-            item.location = dataAfter.location;
-        }
-
-        if (dataBefore.inStock != dataAfter.inStock) {
-            item.inStock = dataAfter.inStock;
-        }
-
-        if (dataBefore.locationDescription != dataAfter.locationDescription) {
-            item.locationDescription = dataAfter.locationDescription;
-        }
-
-        if (dataBefore.phoneNumber != dataAfter.phoneNumber) {
-            item.phoneNumber = dataAfter.phoneNumber;
-        }
-
-        if (dataBefore.description != dataAfter.description) {
-            item.description = dataAfter.description;
-        }
-
-        if (dataBefore.price != dataAfter.price) {
-            item.price = dataAfter.price;
-        }
-
-        if (dataBefore.dateAdded != dataAfter.dateAdded) {
-            item.dateAdded = dataAfter.dateAdded;
-        }
-
-        if (dataBefore.dateModified != dataAfter.dateModified) {
-            item.dateModified = dataAfter.dateModified;
-        }
-
-        if (dataBefore.imageUrls != dataAfter.imageUrls) {
-            item.images = dataAfter.imageUrls;
-        }
-
-        if (dataBefore.mondayOpeningHours != dataAfter.mondayOpeningHours) {
-            item.mondayOpeningHours = dataAfter.mondayOpeningHours;
-        }
-
-        if (dataBefore.mondayClosingHours != dataAfter.mondayClosingHours) {
-            item.mondayClosingHours = dataAfter.mondayClosingHours;
-        }
-
-        if (dataBefore.tuesdayOpeningHours != dataAfter.tuesdayOpeningHours) {
-            item.tuesdayOpeningHours = dataAfter.tuesdayOpeningHours;
-        }
-
-        if (dataBefore.tuesdayClosingHours != dataAfter.tuesdayClosingHours) {
-            item.tuesdayClosingHours = dataAfter.tuesdayClosingHours;
-        }
-
-        if (dataBefore.wednesdayOpeningHours != dataAfter.wednesdayOpeningHours) {
-            item.wednesdayOpeningHours = dataAfter.wednesdayOpeningHours;
-        }
-
-        if (dataBefore.wednesdayClosingHours != dataAfter.wednesdayClosingHours) {
-            item.wednesdayClosingHours = dataAfter.wednesdayClosingHours;
-        }
-
-        if (dataBefore.thursdayOpeningHours != dataAfter.thursdayOpeningHours) {
-            item.thursdayOpeningHours = dataAfter.thursdayOpeningHours;
-        }
-
-        if (dataBefore.thursdayClosingHours != dataAfter.thursdayClosingHours) {
-            item.thursdayClosingHours = dataAfter.thursdayClosingHours;
-        }
-
-        if (dataBefore.fridayOpeningHours != dataAfter.fridayOpeningHours) {
-            item.fridayOpeningHours = dataAfter.fridayOpeningHours;
-        }
-
-        if (dataBefore.fridayClosingHours != dataAfter.fridayClosingHours) {
-            item.fridayClosingHours = dataAfter.fridayClosingHours;
-        }
-
-        if (dataBefore.saturdayOpeningHours != dataAfter.saturdayOpeningHours) {
-            item.saturdayOpeningHours = dataAfter.saturdayOpeningHours;
-        }
-
-        if (dataBefore.saturdayClosingHours != dataAfter.saturdayClosingHours) {
-            item.saturdayClosingHours = dataAfter.saturdayClosingHours;
-        }
-
-        if (dataBefore.sundayOpeningHours != dataAfter.sundayOpeningHours) {
-            item.sundayOpeningHours = dataAfter.sundayOpeningHours;
-        }
-
-        if (dataBefore.sundayClosingHours != dataAfter.sundayClosingHours) {
-            item.sundayClosingHours = dataAfter.sundayClosingHours;
-        }
-        if (dataBefore.businessProfilePhoto != dataAfter.businessProfilePhoto) {
-            item.businessProfilePhoto = dataAfter.businessProfilePhoto;
-        }
-        if (dataBefore.isMondayOpen != dataAfter.isMondayOpen) {
-            item.isMondayOpen = dataAfter.isMondayOpen;
-        }
-        if (dataBefore.isTuesdayOpen != dataAfter.isTuesdayOpen) {
-            item.isTuesdayOpen = dataAfter.isTuesdayOpen;
-        }
-        if (dataBefore.isWednesdayOpen != dataAfter.isWednesdayOpen) {
-            item.isWednesdayOpen = dataAfter.isWednesdayOpen;
-        }
-        if (dataBefore.isThursdayOpen != dataAfter.isThursdayOpen) {
-            item.isThursdayOpen = dataAfter.isThursdayOpen;
-        }
-        if (dataBefore.isFridayOpen != dataAfter.isFridayOpen) {
-            item.isFridayOpen = dataAfter.isFridayOpen;
-        }
-        if (dataBefore.isSaturdayOpen != dataAfter.isSaturdayOpen) {
-            item.isSaturdayOpen = dataAfter.isSaturdayOpen;
-        }
-        if (dataBefore.isSundayOpen != dataAfter.isSundayOpen) {
-            item.isSundayOpen = dataAfter.isSundayOpen;
+            title: dataAfter.title,
+            businessName: dataAfter.businessName,
+            businessDescription: dataAfter.businessDescription,
+            location: dataAfter.location,
+            inStock: dataAfter.inStock,
+            locationDescription: dataAfter.locationDescription,
+            phoneNumber: dataAfter.phoneNumber,
+            description: dataAfter.description,
+            price: dataAfter.price,
+            dateAdded: dataAfter.dateAdded,
+            dateModified: dataAfter.dateModified,
+            images: dataAfter.imageUrls,
+            mondayOpeningHours: dataAfter.mondayOpeningHours,
+            mondayClosingHours: dataAfter.mondayClosingHours,
+            tuesdayOpeningHours: dataAfter.tuesdayOpeningHours,
+            tuesdayClosingHours: dataAfter.tuesdayClosingHours,
+            wednesdayOpeningHours: dataAfter.wednesdayOpeningHours,
+            wednesdayClosingHours: dataAfter.wednesdayClosingHours,
+            thursdayOpeningHours: dataAfter.thursdayOpeningHours,
+            thursdayClosingHours: dataAfter.thursdayClosingHours,
+            fridayOpeningHours: dataAfter.fridayOpeningHours,
+            fridayClosingHours: dataAfter.fridayClosingHours,
+            saturdayOpeningHours: dataAfter.saturdayOpeningHours,
+            saturdayClosingHours: dataAfter.saturdayClosingHours,
+            sundayOpeningHours: dataAfter.sundayOpeningHours,
+            sundayClosingHours: dataAfter.sundayClosingHours,
+            businessProfilePhoto: dataAfter.businessProfilePhoto,
+            isMondayOpen: dataAfter.isMondayOpen,
+            isTuesdayOpen: dataAfter.isTuesdayOpen,
+            isWednesdayOpen: dataAfter.isWednesdayOpen,
+            isThursdayOpen: dataAfter.isThursdayOpen,
+            isFridayOpen: dataAfter.isFridayOpen,
+            isSaturdayOpen: dataAfter.isSaturdayOpen,
+            isSundayOpen: dataAfter.isSundayOpen,
         }
 
         const jsonItem = JSON.stringify(item);
