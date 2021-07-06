@@ -235,6 +235,7 @@ exports.updateProfileItem = functions.firestore
             'inStock': dataAfter.inStock,
             'isActive': dataAfter.isActive,
             'lastRenewal': dataAfter.lastRenewal,
+            'imageUrls': dataAfter.images,
         }, { merge: true });
     });
 
