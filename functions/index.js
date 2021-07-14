@@ -29,6 +29,31 @@ async function publishMessage(data, topicName) {
     }
 }
 
+exports.createProfile = functions.firestore
+    .document(`profile/{userId}`)
+    .onCreate(async (snap, context) => {
+        const userData = snap.data();
+        const data = {
+            "email": userData.email,
+            "businessName": userData.businessName,
+        }
+
+        const jsonData = JSON.stringify(data)
+
+        await publishMessage(jsonData, 'profile-created')
+    })
+    
+exports.profileDeleted = functions.firestore
+    .document(`profile/{userId}`)
+    .onDelete(async (snap, context) => {
+        const userData = snap.data();
+        const data = {}
+
+        const jsonData = JSON.stringify(data)
+
+        await publishMessage(jsonData, 'profile-deleted')
+    })
+
 // On Profile/{userId}/items/{itemId} document created
 exports.createProfileItem = functions.firestore
     .document(`profile/{userId}/items/{itemId}`)
