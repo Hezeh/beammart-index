@@ -236,7 +236,7 @@ exports.createProfileItem = functions.firestore
     });
 
 // On Profile/{userId}/items/{itemId} document created
-exports.createProfileItem = functions.firestore
+exports.createProfileService = functions.firestore
     .document(`profile/{userId}/services/{serviceId}`)
     .onCreate(async (snap, context) => {
         const newValue = snap.data();
@@ -442,7 +442,7 @@ exports.deleteProfileItem = functions.firestore
     });
 
 // on Profile/{userId}/services/{serviceId} document deleted
-exports.deleteProfileItem = functions.firestore
+exports.deleteProfileService = functions.firestore
     .document('profile/{userId}/services/{serviceId}')
     .onDelete(async (snap, context) => {
         // Delete document in /items collection
@@ -451,7 +451,7 @@ exports.deleteProfileItem = functions.firestore
     });
 
 // On Profile/{userId}/services/{serviceId} document updated
-exports.updateProfileItem = functions.firestore
+exports.updateProfileServiceItem = functions.firestore
     .document('profile/{userId}/service/{serviceId}')
     .onUpdate(async (change, context) => {
         // Update the items collection
@@ -803,7 +803,7 @@ exports.itemsCollectionCreate = functions.firestore
     });
 
 // On Item Create -> Index to Elasticsearch
-exports.itemsCollectionCreate = functions.firestore
+exports.allServicesCollectionCreate = functions.firestore
     .document('all-services/{serviceId}')
     .onCreate(async (snap, context) => {
         const serviceId = context.params.serviceId;
@@ -1063,7 +1063,7 @@ exports.itemsCollectionUpdate = functions.firestore
 
 
 // On Item Update -> Update Item in Elasticsearch
-exports.itemsCollectionUpdate = functions.firestore
+exports.allServicesCollectionUpdate = functions.firestore
     .document('all-services/{serviceId}')
     .onUpdate(async (change, context) => {
         const docId = context.params.serviceId;
@@ -1146,7 +1146,7 @@ exports.itemsCollectionDelete = functions.firestore
     })
 
 // On Item Delete -> Delete Item in Elasticsearch
-exports.itemsCollectionDelete = functions.firestore
+exports.allServicesCollectionDelete = functions.firestore
     .document('all-services/{serviceId}')
     .onDelete(async (snap, context) => {
         const serviceId = context.params.serviceId;
